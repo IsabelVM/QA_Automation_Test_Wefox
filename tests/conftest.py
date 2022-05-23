@@ -12,9 +12,10 @@ def setUp():
 
 
 @pytest.fixture(scope="class")
-def oneTimeSetUp(request, browser, titleToSearch, baseURL, dirDriver):
+def oneTimeSetUp(request, browser, titleToSearch, baseURL):
+#def oneTimeSetUp(request, browser, titleToSearch, baseURL, dirDriver):
     print("Running one time setUp")
-    wdf = WebDriverFactory(browser, titleToSearch, baseURL, dirDriver)
+    wdf = WebDriverFactory(browser, titleToSearch, baseURL)
     driver = wdf.getWebDriverInstance()
     titleToSearch = wdf.getTitleToSearch()
 

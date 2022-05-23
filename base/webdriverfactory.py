@@ -9,14 +9,15 @@ Example:
     wdf.getWebDriverInstance()
 """
 
-import traceback
 from selenium import webdriver
-import os
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import IEDriverManager
 
 
 class WebDriverFactory():
 
-    def __init__(self, browser, titleToSearch, baseUrl, dirDriver):
+    def __init__(self, browser, titleToSearch, baseUrl):
         """
         Inits WebDriverFactory class
 
@@ -26,16 +27,7 @@ class WebDriverFactory():
         self.browser = browser
         self.titleToSearch = titleToSearch
         self.baseUrl = baseUrl
-        self.dirDriver = dirDriver
-    """
-        Set chrome driver and iexplorer environment based on OS
 
-        chromedriver = "C:/..../chromedriver.exe"
-        os.environ["webdriver.chrome.driver"] = chromedriver
-        self.driver = webdriver.Chrome(chromedriver)
-
-        PREFERRED: Set the path on the machine where browser will be executed
-    """
 
     def getWebDriverInstance(self):
         """
@@ -46,15 +38,11 @@ class WebDriverFactory():
         #baseUrl = "https://demoqa.com/books"
 
         if self.browser == "iexplorer":
-            # Set internet explorer driver
-            driver = webdriver.Ie()
+            driver = webdriver.Ie(IEDriverManager().install())
         elif self.browser == "firefox":
-            driver = webdriver.Firefox()
+            driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
         elif self.browser == "chrome":
-            currentDir = os.getcwd()
-            subPath = currentDir[0 : currentDir.find('\QA_Automation_Test_Wefox')]
-            path = subPath+self.dirDriver
-            driver = webdriver.Chrome(path + "\\chromedriver.exe")
+            driver = webdriver.Chrome(ChromeDriverManager().install())
         else:
             driver = webdriver.Firefox()
 
